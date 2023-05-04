@@ -19,23 +19,20 @@ jobs:
     - run: |
         sed -i 's/{TAG}/${{ github.sha }}/g' deployment.yaml
     - name: k8s deployment
-      uses: steebchen/kubectl@master
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
-        KUBECTL_VERSION: "1.26"
+      uses: steebchen/kubectl@v2.0.0
       with:
-        args: apply -f deployment.yaml
+        config: ${{ secrets.KUBE_CONFIG }}
+        version: v1.26.0
+        command: apply -f deployment.yaml
     - name: k8s service
-      uses: steebchen/kubectl@master
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
-        KUBECTL_VERSION: "1.26"
+      uses: steebchen/kubectl@v2.0.0
       with:
-        args: apply -f service.yaml
+        config: ${{ secrets.KUBE_CONFIG }}
+        version: v1.26.0
+        command: apply -f service.yaml
     - name: deployment status
-      uses: steebchen/kubectl@master
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
-        KUBECTL_VERSION: "1.26"
+      uses: steebchen/kubectl@v2.0.0
       with:
-        args: '"rollout status deployment/cicd-test"'
+        config: ${{ secrets.KUBE_CONFIG }}
+        version: v1.26.0
+        command: rollout status deployment/cicd-test

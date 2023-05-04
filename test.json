@@ -1,0 +1,368 @@
+{
+	"info": {
+		"_postman_id": "c78aaeab-4980-4fd8-998f-c9475703c668",
+		"name": "Cocome",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19523957"
+	},
+	"item": [
+		{
+			"name": "processSale",
+			"item": [
+				{
+					"name": "startSale",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "47.94.38.234:8080/start-sale",
+							"host": [
+								"47",
+								"94",
+								"38",
+								"234"
+							],
+							"port": "8080",
+							"path": [
+								"start-sale"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\" : \"zzy\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "47.94.38.234:8080/zzy/login",
+									"host": [
+										"47",
+										"94",
+										"38",
+										"234"
+									],
+									"port": "8080",
+									"path": [
+										"zzy",
+										"login"
+									]
+								}
+							},
+							"status": "Precondition Failed",
+							"code": 412,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 27 Apr 2023 06:04:21 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"giao\"\n}"
+						}
+					]
+				},
+				{
+					"name": "enterItem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"const responseJson = pm.response.json();\r",
+									"pm.test(\"Body test\", () => {\r",
+									"  pm.expect(responseJson.price).to.gt(0);\r",
+									"});\r",
+									"if(responseJson.price < 30) {\r",
+									"    postman.setNextRequest(\"enterItem\");\r",
+									"}else{\r",
+									"    pm.collectionVariables.set(\"paymentPrice\", responseJson.price);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"item_name\" : \"apple\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "47.94.38.234:8080/enter-item",
+							"host": [
+								"47",
+								"94",
+								"38",
+								"234"
+							],
+							"port": "8080",
+							"path": [
+								"enter-item"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\" : \"zzy\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "47.94.38.234:8080/zzy/login",
+									"host": [
+										"47",
+										"94",
+										"38",
+										"234"
+									],
+									"port": "8080",
+									"path": [
+										"zzy",
+										"login"
+									]
+								}
+							},
+							"status": "Precondition Failed",
+							"code": 412,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 27 Apr 2023 06:04:21 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"giao\"\n}"
+						}
+					]
+				},
+				{
+					"name": "makePayment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\" : {{paymentPrice}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "47.94.38.234:8080/make-payment",
+							"host": [
+								"47",
+								"94",
+								"38",
+								"234"
+							],
+							"port": "8080",
+							"path": [
+								"make-payment"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\" : \"zzy\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "47.94.38.234:8080/zzy/login",
+									"host": [
+										"47",
+										"94",
+										"38",
+										"234"
+									],
+									"port": "8080",
+									"path": [
+										"zzy",
+										"login"
+									]
+								}
+							},
+							"status": "Precondition Failed",
+							"code": 412,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 27 Apr 2023 06:04:21 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"giao\"\n}"
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "20373390",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "StudentId",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}

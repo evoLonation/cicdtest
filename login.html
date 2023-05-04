@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta charset="UTF-8">
+   <title>学生信息查询</title>
+</head>
+
+<body>
+   <h1>请输入学号：</h1>
+   <input name="student-id" type="text" id="student-id"/>
+   <p id="message"></p>
+   <button onclick="submit()">提交</button>
+   <script>
+      function submit() {
+         const studentId = document.getElementById('student-id').value;
+         document.getElementById('message').textContent = "hello, " + studentId;
+
+         // console.log(`已发送学号为${studentId}的查询请求`);
+         const url = "http://47.94.38.234:8080/front/login?id="+ studentId;
+
+         // 创建XMLHttpRequest对象
+         const xhr = new XMLHttpRequest();
+
+         // 设置请求的类型、url以及是否异步处理请求
+         xhr.open('GET', url, true);
+         
+         // 注册相关事件回调处理函数
+         xhr.onreadystatechange = function () {
+            if (xhr.status === 200) {
+               // 请求完成，且响应成功
+               console.log(xhr.responseText);
+            } else {
+               // 请求未完成或者响应失败
+               console.log('请求失败');
+            }
+         };
+         // 发送请求
+         xhr.send();
+      }
+   </script>
+</body>
+
+</html>

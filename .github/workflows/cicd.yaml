@@ -1,0 +1,41 @@
+name: Docker Image CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        docker login --username=${{ secrets.DOCKER_USER }} --password=${{ secrets.DOCKER_PASSWORD }}
+        docker build . --file Dockerfile --tag evolonation/cicd-test:${{ github.sha }}
+        docker push evolonation/cicd-test:${{ github.sha }}
+    # k8s部署
+    - run: |
+        sed -i 's/{TAG}/${{ github.sha }}/g' deployment.yaml
+    - name: k8s deployment
+      uses: steebchen/kubectl@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
+        KUBECTL_VERSION: "1.26"
+      with:
+        args: apply -f deployment.yaml
+    - name: k8s service
+      uses: steebchen/kubectl@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
+        KUBECTL_VERSION: "1.26"
+      with:
+        args: apply -f service.yaml
+    - name: deployment status
+      uses: steebchen/kubectl@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
+        KUBECTL_VERSION: "1.26"
+      with:
+        args: '"rollout status deployment/cicd-test"'
